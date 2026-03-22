@@ -10,9 +10,13 @@ const PORT = process.env.PORT || 5001;
 
 // Create HTTP server with Socket.io
 const server = http.createServer(app);
+const frontendUrls = process.env.FRONTEND_URL 
+  ? process.env.FRONTEND_URL.split(",").map(url => url.trim().replace(/\/$/, "")) 
+  : ["http://localhost:5173", "http://localhost:3000"];
+
 const io = socketIO(server, {
   cors: {
-    origin: process.env.FRONTEND_URL ? process.env.FRONTEND_URL.split(",") : ["http://localhost:5173", "http://localhost:3000"],
+    origin: frontendUrls,
     methods: ["GET", "POST"],
     credentials: true
   }
