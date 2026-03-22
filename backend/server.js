@@ -87,5 +87,5 @@ app.use("/uploads", express.static(path.join(__dirname, "public", "uploads")));
 
 server.listen(PORT, () => console.log(`✅ Server running on port ${PORT}`));
 app.use((req, res) => {
-  res.sendFile(path.join(__dirname, "public", "index.html"));
+  res.status(404).json({ message: "API route not found" });
 });
