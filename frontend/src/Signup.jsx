@@ -4,7 +4,7 @@ import { useNavigate, Link } from "react-router-dom";
 import "./signup.css";
 import bannerImg from "./2.png";
 
-const API_URL = import.meta.env.VITE_API_URL;
+const API_URL = import.meta.env.VITE_API_URL?.replace(/\/$/, "");
 
 const Signup = () => {
   const [formData, setFormData] = useState({

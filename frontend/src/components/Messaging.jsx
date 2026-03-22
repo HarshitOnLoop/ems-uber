@@ -24,7 +24,7 @@ const Messaging = ({ currentUser }) => {
     selectedContactRef.current = selectedContact;
   }, [selectedContact]);
 
-  const API = import.meta.env.VITE_API_URL;
+  const API = import.meta.env.VITE_API_URL?.replace(/\/$/, "");
 
   // Initialize Socket.io connection
   useEffect(() => {

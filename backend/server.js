@@ -87,5 +87,10 @@ app.use("/uploads", express.static(path.join(__dirname, "public", "uploads")));
 
 server.listen(PORT, () => console.log(`✅ Server running on port ${PORT}`));
 app.use((req, res) => {
-  res.status(404).json({ message: "API route not found" });
+  console.log(`404 at ${req.method} ${req.url}`);
+  res.status(404).json({ 
+    message: "API route not found", 
+    requestedPath: req.url,
+    method: req.method 
+  });
 });
