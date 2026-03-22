@@ -10,13 +10,19 @@ const PORT = process.env.PORT || 5001;
 
 // Create HTTP server with Socket.io
 const server = http.createServer(app);
-const frontendUrls = process.env.FRONTEND_URL 
+const allowedOrigins = process.env.FRONTEND_URL 
   ? process.env.FRONTEND_URL.split(",").map(url => url.trim().replace(/\/$/, "")) 
-  : ["http://localhost:5173", "http://localhost:3000"];
+  : [];
 
 const io = socketIO(server, {
   cors: {
-    origin: frontendUrls,
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin) || origin.includes("localhost") || origin.endsWith(".vercel.app")) {
+        callback(null, true);
+      } else {
+        callback(new Error('Not allowed by CORS'));
+      }
+    },
     methods: ["GET", "POST"],
     credentials: true
   }

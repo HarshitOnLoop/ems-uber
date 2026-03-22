@@ -15,13 +15,28 @@ connectDB()
 
 const app = express();
 
-const frontendUrls = process.env.FRONTEND_URL 
+const allowedOrigins = process.env.FRONTEND_URL 
   ? process.env.FRONTEND_URL.split(",").map(url => url.trim().replace(/\/$/, "")) 
-  : ["http://localhost:5173", "http://localhost:3000"];
+  : [];
 
 app.use(cors({
-  origin: frontendUrls,
-  credentials: true
+  origin: function (origin, callback) {
+    // Allow requests with no origin (like mobile apps or curl)
+    if (!origin) return callback(null, true);
+    
+    const isAllowed = allowedOrigins.includes(origin) || 
+                      origin.includes("localhost") || 
+                      origin.endsWith(".vercel.app");
+                      
+    if (isAllowed) {
+      callback(null, true);
+    } else {
+      console.log("CORS blocked origin:", origin);
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true,
+  optionsSuccessStatus: 200
 }));
 app.use(express.json({ limit: '10mb' }));
 app.use("/", routes);
