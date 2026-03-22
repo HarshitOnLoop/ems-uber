@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: uber-ems-backend
+    env: node
+    buildCommand: npm install
+    startCommand: npm start
+    rootDirectory: backend
+    envVars:
+      - key: MONGO_URI
+        sync: false
+      - key: FRONTEND_URL
+        sync: false
+      - key: PORT
+        value: 10000

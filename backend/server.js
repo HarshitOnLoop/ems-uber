@@ -12,7 +12,7 @@ const PORT = process.env.PORT || 5001;
 const server = http.createServer(app);
 const io = socketIO(server, {
   cors: {
-    origin: ["http://localhost:5173", "http://localhost:3000"],
+    origin: process.env.FRONTEND_URL ? process.env.FRONTEND_URL.split(",") : ["http://localhost:5173", "http://localhost:3000"],
     methods: ["GET", "POST"],
     credentials: true
   }

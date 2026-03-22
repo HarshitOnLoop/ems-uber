@@ -24,7 +24,7 @@ const Messaging = ({ currentUser }) => {
     selectedContactRef.current = selectedContact;
   }, [selectedContact]);
 
-  const API = import.meta.env.VITE_API_URL || 'http://localhost:5001';
+  const API = import.meta.env.VITE_API_URL;
 
   // Initialize Socket.io connection
   useEffect(() => {
