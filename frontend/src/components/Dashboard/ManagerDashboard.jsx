@@ -110,7 +110,12 @@ const ManagerDashboard = () => {
     if (!searchQuery) { setFilteredUsers(users); } 
     else { 
       const lowerQ = searchQuery.toLowerCase(); 
-      setFilteredUsers(users.filter(u => u.name.toLowerCase().includes(lowerQ) || u.email.toLowerCase().includes(lowerQ))); 
+      setFilteredUsers(users.filter(u => 
+        (u.name?.toLowerCase() || "").includes(lowerQ) || 
+        (u.email?.toLowerCase() || "").includes(lowerQ) ||
+        (u.department?.toLowerCase() || "").includes(lowerQ) ||
+        (u.customId?.toLowerCase() || "").includes(lowerQ)
+      )); 
     } 
   }, [searchQuery, users]);
 
