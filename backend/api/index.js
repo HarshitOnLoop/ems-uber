@@ -3,6 +3,9 @@ require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+
+const JWT_SECRET = process.env.JWT_SECRET || "uber_ems_jwt_secret_key_2024";
 const multer = require("multer");
 const User = require("../User");
 const { Department, PerformanceReview, Payroll, Announcement, Goal, Document, Message } = require("../Models");
@@ -15,29 +18,7 @@ connectDB()
 
 const app = express();
 
-const allowedOrigins = process.env.FRONTEND_URL 
-  ? process.env.FRONTEND_URL.split(",").map(url => url.trim().replace(/\/$/, "")) 
-  : [];
-
-app.use(cors({
-  origin: function (origin, callback) {
-    // Allow requests with no origin (like mobile apps or curl)
-    if (!origin) return callback(null, true);
-    
-    const isAllowed = allowedOrigins.includes(origin) || 
-                      origin.includes("localhost") || 
-                      origin.endsWith(".vercel.app");
-                      
-    if (isAllowed) {
-      callback(null, true);
-    } else {
-      console.log("CORS blocked origin:", origin);
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
-  credentials: true,
-  optionsSuccessStatus: 200
-}));
+app.use(cors());
 app.use(express.json({ limit: '10mb' }));
 app.use("/", routes);
 
@@ -112,13 +93,21 @@ app.post("/login", async (req, res) => {
     const match = await bcrypt.compare(password, user.password);
     if (!match) return res.status(401).json({ message: "Invalid email or password" });
 
+    // Generate JWT token
+    const token = jwt.sign(
+      { userId: user._id, role: user.role },
+      JWT_SECRET,
+      { expiresIn: "7d" }
+    );
+
     res.json({
       id: user._id,
       _id: user._id,
       name: user.name,
       email: user.email,
       role: user.role,
-      customId: user.customId
+      customId: user.customId,
+      token: token
     });
   } catch (err) {
     res.status(500).json({ message: "Server error" });
