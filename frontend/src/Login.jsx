@@ -3,7 +3,7 @@ import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
 import bannerImg from "./2.png";
 
-const API_URL = import.meta.env.VITE_API_URL?.replace(/\/$/, "");
+const API_URL = import.meta.env.VITE_API_URL;
 
 const Login = () => {
   const navigate = useNavigate();
@@ -33,8 +33,18 @@ const Login = () => {
         }
       );
 
-      // Save user data
-      localStorage.setItem("user", JSON.stringify(res.data));
+      // Extract JWT token from response
+      const { token, ...userData } = res.data;
+
+      // Store JWT token in localStorage for authenticated requests
+      if (token) {
+        localStorage.setItem("token", token);
+        // Set token as default Authorization header for all future axios requests
+        axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+      }
+
+      // Save user data (without token)
+      localStorage.setItem("user", JSON.stringify(userData));
 
       // Navigate based on role
       if (res.data.role === "manager") {
