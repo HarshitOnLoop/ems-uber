@@ -70,11 +70,11 @@ const Login = () => {
       <div className="signup-banner">
         <div className="banner-text-wrapper">
           <h1 className="banner-title">
-            WELCOME BACK <br /> TO UBER EMS
+            WELCOME BACK <br /> TO EMS
           </h1>
           <p className="banner-hashtag">#workwell</p>
           <p className="banner-tagline">Setting the world in motion.</p>
-          <p className="banner-brand">Uber</p>
+          <p className="banner-brand">Abc Private Limited</p>
         </div>
         <div className="banner-image-container">
           <img
