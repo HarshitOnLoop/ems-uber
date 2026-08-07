@@ -57,14 +57,23 @@ const Signup = () => {
 
   return (
     <div className="signup-container">
-      {/* Left Section */}
-      <div className="signup-banner">
-        <div className="banner-text-wrapper">
-          <h1 className="banner-title">
-            WELCOME TO <br />  EMS
-          </h1>
-          <p className="banner-hashtag">#moveforward</p>
-          <p className="banner-brand">Abc Private Limited</p>
+  {/* Left Section */}
+  <div className="signup-banner">
+    <div className="banner-text-wrapper">
+      <h1 className="banner-title">
+        EMPLOYEE <br /> MANAGEMENT <br /> SYSTEM
+      </h1>
+
+      <p className="banner-hashtag">
+        A role-based system to manage employees, tasks, attendance, and leaves.
+      </p>
+
+      <p className="banner-brand">
+        A full-stack application with manager and employee dashboards, featuring task assignment, leave management, attendance tracking, and real-time communication.
+      </p>
+    </div>
+  </div>
+</div>
         </div>
         <div className="banner-image-container">
           <img
